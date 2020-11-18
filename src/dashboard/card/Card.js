@@ -14,7 +14,7 @@ import { Link, Route } from 'react-router-dom';
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
-  },
+  }
 });
 
 export default function ImgMediaCard(props) {
@@ -26,9 +26,9 @@ export default function ImgMediaCard(props) {
       <CardActionArea>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
+          alt="Laptop"
           image={props.Image}
-          title="Contemplative Reptile"
+          title="Laptop"
         />
         <CardContent>
           <Typography gutterBottom variant="h6" component="h8">
