@@ -5,7 +5,7 @@ export default function RowsGrid(props) {
     <div style={{ height: "120%", width: "100%" }}>
       <b>Current Price</b> : {props.current_price}
       <br />
-      <b>Expected Price(in 3 days)</b> : {props.expected}({props.growth})<br />
+      <b>Expected Price(in 3 days)</b> : {props.expected}({props.growth}%)<br />
     </div>
   );
 }
