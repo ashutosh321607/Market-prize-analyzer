@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -18,27 +19,16 @@ import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import { mainListItems, secondaryListItems } from "./listItems";
-import Chart from "./Chart";
-import Deposits from "./Deposits";
-import Orders from "./Orders";
 import Card from "./card/Card";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import HomeIcon from "@material-ui/icons/Home";
+import LocalMallIcon from "@material-ui/icons/LocalMall";
 
-const admins = require("../Flipkart_data_filter.json");
-const fields = [];
-for (let i =1; i < Object.keys(admins).length; i++) {
-  fields.push(
-    <Grid item md={4}>
-      <Card 
-        name={admins[i]["Name"]}
-        price={admins[i]["Price"]}
-        expected={admins[i]["Forcast"]}
-        Change={admins[i]["Change"]}
-        per={admins[i]["ChangeInPer"]}
-      />
-    </Grid>
-  );
-}
+let data = require("../data/Top_Picks_Flipkart.json");
 
 const drawerWidth = 240;
 
@@ -125,8 +115,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function giveField(data) {
+  const fields = [];
+  for (let i = 0; i < Object.keys(data["Name"]).length; i++) {
+    fields.push(
+      <Grid item md={4}>
+        <Card
+          name={data["Name"][i]}
+          price={data["Price"][i]}
+          expected={data["Forecast"][i]}
+          Change={data["Change"][i]}
+          per={data["Change in %"][i]}
+          Image={data["Image"][i]}
+          link={data["Link"][i]}
+        />
+      </Grid>
+    );
+  }
+  return fields;
+}
 export default function Dashboard() {
   const classes = useStyles();
+  const [field, setField] = useState(giveField(data));
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -160,13 +170,8 @@ export default function Dashboard() {
             noWrap
             className={classes.title}
           >
-            Home
+            Laptop Price Predictor
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -182,15 +187,49 @@ export default function Dashboard() {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <List>
+          <div>
+            <ListItem button onClick={() => {
+                  setField((giveField(require("../data/Top_Picks_Flipkart.json")))) ;
+                }}>
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText primary="Home" />
+            </ListItem>
+          </div>
+        </List>
         <Divider />
-        <List>{secondaryListItems}</List>
+        <List>
+          <div>
+            <ListSubheader inset>E-commerce Platforms</ListSubheader>
+            <ListItem button onClick={() => {
+                  setField((giveField(require("../data/Flipkart_Forecast.json")))) ;
+                }}>
+              <ListItemIcon>
+                <ShoppingCartIcon />
+              </ListItemIcon>
+              <ListItemText
+                
+                primary="Flipkart"
+              />
+            </ListItem>
+            <ListItem button onClick={() => {
+                  setField((giveField(require("../data/Amazon_Forecast.json")))) ;
+                }}>
+              <ListItemIcon>
+                <LocalMallIcon />
+              </ListItemIcon>
+              <ListItemText primary="Amazon" />
+            </ListItem>
+          </div>
+        </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={4}>
-            {fields}
+            {field}
           </Grid>
         </Container>
       </main>

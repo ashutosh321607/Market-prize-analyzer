@@ -14,9 +14,10 @@ import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+import PanToolIcon from '@material-ui/icons/PanTool';
 
 export default function ImgMediaCard(props) {
-  if (props.change <= 0 ) {
+  if (props.change >= 0) {
     return (
       <CardHeader
         avatar={<ThumbUpIcon style={{ color: "Green" }} />}
@@ -27,7 +28,7 @@ export default function ImgMediaCard(props) {
   } else {
     return (
       <CardHeader
-        avatar={<ThumbDownIcon style={{ color: "Red" }} />}
+        avatar={<PanToolIcon style={{ color: "Red" }} />}
         subheader="Price is Expected to Drop"
         title="Wait"
       />

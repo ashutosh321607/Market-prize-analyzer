@@ -9,11 +9,12 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Row from "./row";
 import Header from "./cardHeader";
+import { Link, Route } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345
-  }
+    maxWidth: 345,
+  },
 });
 
 export default function ImgMediaCard(props) {
@@ -23,26 +24,29 @@ export default function ImgMediaCard(props) {
     <Card className={classes.root}>
       <Header change={props.Change} />
       <CardActionArea>
-        {/* <CardMedia
+        <CardMedia
           component="img"
           alt="Contemplative Reptile"
-          image="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mbp16touch-space-select-201911?wid=1808&hei=1686&fmt=jpeg&qlt=80&.v=1572825197207"
+          image={props.Image}
           title="Contemplative Reptile"
-        /> */}
+        />
         <CardContent>
           <Typography gutterBottom variant="h6" component="h8">
             {props.name}
           </Typography>
-          <Row current_price={props.price} expected={props.expected} growth={props.per} />
+          <Row
+            current_price={props.price}
+            expected={props.expected}
+            growth={props.per}
+          />
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Buy now
-        </Button>
-        <Button size="small" color="primary">
-          view now
-        </Button>
+        <a href={props.link} target="_blank">
+          <Button variant="contained" color="primary" component="span">
+            <b>view Now</b>
+          </Button>
+        </a>
       </CardActions>
     </Card>
   );
