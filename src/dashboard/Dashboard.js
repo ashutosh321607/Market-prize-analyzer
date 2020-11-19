@@ -27,6 +27,9 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import HomeIcon from "@material-ui/icons/Home";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
+import SearchIcon from "@material-ui/icons/Search";
+import InputBase from "@material-ui/core/InputBase";
+import { fade } from "@material-ui/core/styles";
 
 let data = require("../data/Top_Picks_Flipkart.json");
 
@@ -45,6 +48,40 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end",
     padding: "0 8px",
     ...theme.mixins.toolbar,
+  },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(3),
+      width: "auto",
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+    },
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -115,28 +152,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function giveField(data) {
+function giveField(data, string) {
   const fields = [];
   for (let i = 0; i < Object.keys(data["Name"]).length; i++) {
-    fields.push(
-      <Grid item md={4}>
-        <Card
-          name={data["Name"][i]}
-          price={data["Price"][i]}
-          expected={data["Forecast"][i]}
-          Change={data["Change"][i]}
-          per={data["Change in %"][i]}
-          Image={data["Image"][i]}
-          link={data["Link"][i]}
-        />
-      </Grid>
-    );
+    var mainString = data["Name"][i].toLowerCase();
+    if (mainString.includes(string.toLowerCase())) {
+      fields.push(
+        <Grid item md={3}>
+          <Card
+            name={data["Name"][i]}
+            price={data["Price"][i]}
+            expected={data["Forecast"][i]}
+            Change={data["Change"][i]}
+            per={data["Change in %"][i]}
+            Image={data["Image"][i]}
+            link={data["Link"][i]}
+          />
+        </Grid>
+      );
+    }
   }
   return fields;
 }
 export default function Dashboard() {
   const classes = useStyles();
-  const [field, setField] = useState(giveField(data));
+  const [field, setField] = useState(giveField(data,""));
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -172,6 +212,22 @@ export default function Dashboard() {
           >
             Laptop Price Predictor
           </Typography>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search…"
+              onChange={(event) => {
+                setField(giveField(data,event.target.value))
+              }}
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ "aria-label": "search" }}
+            />
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -189,9 +245,13 @@ export default function Dashboard() {
         <Divider />
         <List>
           <div>
-            <ListItem button onClick={() => {
-                  setField((giveField(require("../data/Top_Picks_Flipkart.json")))) ;
-                }}>
+            <ListItem
+              button
+              onClick={() => {
+                data = require("../data/Top_Picks_Flipkart.json");
+                setField(giveField(data,""))
+              }}
+            >
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
@@ -203,20 +263,25 @@ export default function Dashboard() {
         <List>
           <div>
             <ListSubheader inset>E-commerce Platforms</ListSubheader>
-            <ListItem button onClick={() => {
-                  setField((giveField(require("../data/Flipkart_Forecast.json")))) ;
-                }}>
+            <ListItem
+              button
+              onClick={() => {
+                data = require("../data/Flipkart_Forecast.json");
+                setField(giveField(data,""))
+              }}
+            >
               <ListItemIcon>
                 <ShoppingCartIcon />
               </ListItemIcon>
-              <ListItemText
-                
-                primary="Flipkart"
-              />
+              <ListItemText primary="Flipkart" />
             </ListItem>
-            <ListItem button onClick={() => {
-                  setField((giveField(require("../data/Amazon_Forecast.json")))) ;
-                }}>
+            <ListItem
+              button
+              onClick={() => {
+                data = require("../data/Amazon_Forecast.json");
+                setField(giveField(data,""))
+              }}
+            >
               <ListItemIcon>
                 <LocalMallIcon />
               </ListItemIcon>

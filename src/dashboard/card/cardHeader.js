@@ -20,7 +20,7 @@ export default function ImgMediaCard(props) {
   if (props.change >= 0) {
     return (
       <CardHeader
-        avatar={<ThumbUpIcon style={{ color: "Green" }} />}
+        avatar={<ThumbUpIcon style={{ color: "Green", fontSize: 50  }} />}
         subheader="Price is Expected to Rise"
         title="Buy Now"
       />
@@ -28,7 +28,7 @@ export default function ImgMediaCard(props) {
   } else {
     return (
       <CardHeader
-        avatar={<PanToolIcon style={{ color: "Red" }} />}
+        avatar={<PanToolIcon style={{ color: "Red", fontSize: 50   }} />}
         subheader="Price is Expected to Drop"
         title="Wait"
       />
