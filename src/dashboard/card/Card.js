@@ -31,14 +31,16 @@ export default function ImgMediaCard(props) {
           title="Laptop"
         />
         <CardContent>
-          <Typography gutterBottom variant="h6" component="h8">
+          <Typography gutterBottom variant="h7" component="h8">
             {props.name}
           </Typography>
-          <Row
+          <div style={{textAlign: "left", width: "150%"}}>
+          <Row 
             current_price={props.price}
             expected={props.expected}
             growth={props.per}
           />
+          </div>
         </CardContent>
       </CardActionArea>
       <CardActions>
