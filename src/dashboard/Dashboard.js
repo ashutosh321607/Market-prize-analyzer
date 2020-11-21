@@ -31,7 +31,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import { fade } from "@material-ui/core/styles";
 
-let data = require("../data/Top_Picks_Flipkart.json");
+let data = require("../data/Top_Picks.json");
 
 const drawerWidth = 240;
 
@@ -167,6 +167,7 @@ function giveField(data, string) {
             per={data["Change in %"][i]}
             Image={data["Image"][i]}
             link={data["Link"][i]}
+            ecommerce={data["E-Commerce"][i]}
           />
         </Grid>
       );
@@ -248,7 +249,7 @@ export default function Dashboard() {
             <ListItem
               button
               onClick={() => {
-                data = require("../data/Top_Picks_Flipkart.json");
+                data = require("../data/Top_Picks.json");
                 setField(giveField(data,""))
               }}
             >

@@ -22,7 +22,7 @@ export default function ImgMediaCard(props) {
       <CardHeader
         avatar={<ThumbUpIcon style={{ color: "Green", fontSize: 50  }} />}
         subheader="Price is Expected to Rise"
-        title="Buy Now"
+        title= "Buy Now"
       />
     );
   } else {
